@@ -1,0 +1,58 @@
+@model Category
+@{
+    ViewData["Title"] = "Cập nhật danh mục";
+}
+
+<div class="card card-warning">
+    <div class="card-header">
+        <h3 class="card-title">Cập nhật danh mục</h3>
+    </div>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name"></label> <span class="text-danger">*</span>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="1">Hiển thị</option>
+                    <option value="0">Ẩn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image"></label>
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <div class="mb-2"><img src="@Model.Image" style="height:100px" class="img-thumbnail" /></div>
+                }
+                <div class="custom-file">
+                    <input type="file" name="ImageFile" class="custom-file-input" id="ImageFile" accept="image/*" />
+                    <label class="custom-file-label" for="ImageFile">Chọn ảnh...</label>
+                </div>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-warning"><i class="fas fa-save"></i> Cập nhật</button>
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Quay lại</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $('.custom-file-input').on('change', function () {
+            $(this).next('.custom-file-label').text(this.files.length ? this.files[0].name : 'Chọn ảnh...');
+        });
+    </script>
+}
